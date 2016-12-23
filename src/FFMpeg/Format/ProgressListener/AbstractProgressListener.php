@@ -244,7 +244,11 @@ abstract class AbstractProgressListener extends EventEmitter implements Listener
             return;
         }
 
-        if (false === $format->has('size') || false === $format->has('duration')) {
+        // force duration to 2min for .webm video without duration
+        if (false === $format->has('duration'))
+            $format->set('duration', 120);
+
+        if (false === $format->has('size')) {
             return;
         }
 
