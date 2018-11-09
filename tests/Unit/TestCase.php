@@ -2,7 +2,9 @@
 
 namespace Tests\FFMpeg\Unit;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase as BaseTestCase;
+
+class TestCase extends BaseTestCase
 {
     public function assertScalar($value)
     {
@@ -147,5 +149,25 @@ class TestCase extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($filename));
 
         return $video;
+    }
+
+    public function getConcatMock()
+    {
+        return $this->getMockBuilder('FFMpeg\Media\Concat')
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+    public function getFormatInterfaceMock()
+    {
+        $FormatInterface = $this->getMockBuilder('FFMpeg\Format\FormatInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $FormatInterface->expects($this->any())
+            ->method('getExtraParams')
+            ->will($this->returnValue(array()));
+
+        return $FormatInterface;
     }
 }
